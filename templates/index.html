@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>TODO</title>
+{% endblock %}
+
+
+
+{% block body %}
+<div class="content">
+    <h1>Todo Task</h1>
+    <form action="/" method="POST">
+        <input type="text" name="content" id="content" />
+        <input type="submit" value="Add Task" id="add_btn" />
+    </form>
+    {% if tasks|length < 1%} <h4> No tasks found... create one below</h4>
+        {% else %}
+        <table>
+            <tr>
+
+                <th>Task</th>
+                <th>Date</th>
+                <th>Action</th>
+
+
+            </tr>
+            {% for task in tasks %}
+            <tr>
+                <td style="display: flex;align-items: center;">
+
+                    <a href="/toggle/{{ task.id }}">
+                        <input type="checkbox" id="task-{{ task.id }}" name="completed" {% if task.completed %} checked
+                            {% endif %}></a>&nbsp;&nbsp;
+                    {% if task.completed %}
+
+
+                    <p style="text-decoration: line-through;">{{ task.content }}</p>
+                    {% else %}
+
+                    <p>{{ task.content }}</p>
+                    {% endif %}
+
+                </td>
+                <td>{{ task.date_created.strftime("%Y-%m-%d") }}</td>
+                <td>
+                    <a class="delete" href="/delete/{{task.id}}">Delete</a>
+
+
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+
+</div>
+</body>
+{% endblock %}
